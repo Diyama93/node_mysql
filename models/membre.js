@@ -24,22 +24,15 @@ class Membre {
     get dateFin() {
         return moment(this.row.dateFin)
     }
-    get idType() {
-        return this.row.idType
+    get type() {
+        return this.row.type
     }
 
-    //tous les types de membres
-    
-    static allType (cb){
-        connection.query('SELECT libelle FROM type', (err, rows) => {
-            if (err) throw err
-            cb(rows.map((row) => new Type(row)))
-        } )
-    }
+  
     //create member
-    static create (nom, prenom, email, dateFin, idType, cb) {
+    static create (nom, prenom, email, dateFin, type, cb) {
         //connexion à la bd et sauvé l'enré        
-        connection.query('INSERT INTO membres SET nom = ?, prenom = ?, email = ?, dateFin = ?, idType = ?', [nom, prenom, email, dateFin, idType], (err, result) =>{
+        connection.query('INSERT INTO membres SET nom = ?, prenom = ?, email = ?, dateFin = ?, type = ?', [nom, prenom, email, dateFin, type], (err, result) =>{
             if (err) throw err
             cb(result)
         })
@@ -52,13 +45,22 @@ class Membre {
             cb(rows.map((row) => new Membre(row)))
         } )
     }
-    
+    //selectionner un membre
     static find (id, cb){
         connection.query('SELECT * FROM membres WHERE id = ? LIMIT 1', [id], (err, rows) => {
             if (err) throw err
             //je veut que tu renvoie le premier enrégistrement sous forme de membre
             cb(new Membre(rows[0]))
         } )
+    }
+    //modifier membres
+    static edit (id, cb){
+        connection.query('SELECT * FROM membres WHERE id = ? LIMIT 1', [id], function(err, result){
+            if(err) throw err;
+            
+            console.log('Record Updated ' + result.changedRows + ' rows');
+            cb(new Membre(rows[0]))
+      });
     }
 
 }

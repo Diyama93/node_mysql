@@ -69,7 +69,7 @@ exports.membreadd = (req, res) => {
         let hashedPassword = await bcrypt.hash(password, 8);
         console.log(hashedPassword)*/
 
-        connection.query('INSERT INTO membres SET ?', {nom: nom, prenom: prenom, email: email, dateFin: dateFin, idType: idType}, (error, results)=>{
+        connection.query('INSERT INTO membres SET ?', {nom: nom, prenom: prenom, email: email, dateFin: dateFin, idType: type}, (error, results)=>{
             if(error){
                 console.log(error);
             }else {

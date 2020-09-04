@@ -1,9 +1,7 @@
 <%- include ('../header') -%>
 <div class="container mt-4">
     <div class="card">
-        <div class="card-header">
-            Ajouter un membre
-        </div>
+        <div class="card-header"> Modification du membre <%= membre.nom %> <%= membre.prenom %></div>
             <% if (locals.flash && locals.flash.error) { %>
             <div class="alert alert-danger" role="alert">
                 <%= flash.error %>
@@ -16,32 +14,32 @@
             <% } %>
 
         <div class="card-body">
-            <form action="/membre/add" method="POST">
+            <form action="/membre/:id/edit" method="POST">
                 <div class="form-group">
                     <label for="nom">Nom</label>
-                    <input type="text" class="form-control" id="nom" name="nom">
+                    <input type="text" class="form-control" id="nom" name="nom" value="<%= membre.nom %>">
                 </div>
                 <div class="form-group">
                     <label for="prenom">Prénom(s)</label>
-                    <input type="text" class="form-control" id="prenom" name="prenom">
+                    <input type="text" class="form-control" id="prenom" name="prenom" value="<%= membre.prenom %>">
                 </div>
                 <div class="form-group">
                     <label for="email">Adresse mail</label>
-                    <input type="email" class="form-control" id="email" name="email">
+                    <input type="email" class="form-control" id="email" name="email" value="<%= membre.email %>">
                 </div>
                 <div class="form-group">
                     <label for="date"> Date de fin d'abonnement</label>
-                    <input type="date" class="form-control" id="date" name="dateFin">
+                    <input type="date" class="form-control" id="date" name="dateFin" value="<%= membre.dateFin %>">
                 </div>
                 <div class="form-group">
                     <label for="exampleFormControlSelect1">Type du membre</label>
-                    <select class="form-control" id="exampleFormControlSelect1" name="type">                        
+                    <select class="form-control" id="exampleFormControlSelect1" name="type" value="<%= membre.type %>">                        
                             <option> Donateur</option>
                             <option> Bénévole</option>                        
                     </select>
                 </div>
                 
-                <button type="submit" class="btn btn-primary">Enrégister</button>
+                <button type="submit" class="btn btn-primary" value="<%= membre.id %>">Modifier</button>
             </form>
         </div>
     </div>

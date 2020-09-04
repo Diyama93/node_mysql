@@ -5,7 +5,11 @@ const dotenv = require('dotenv');
 const cookieParser = require('cookie-parser');
 
 let bodyParser = require('body-parser')
-let session = require('express-session')
+let session = require('express-session');
+const { request } = require("http");
+const { response } = require("express");
+const connection = require("./config/db");
+const { error } = require("console");
 
 dotenv.config({ path: './.env'});
 
@@ -65,6 +69,7 @@ app.get('/membre', (request, response) =>{
         response.render('membres/show.ejs', {membres: membres})
     })  
 } )
+//ajout membre
 app.get('/membre/add', (request, response) =>{
     let Membre = require('./models/membre');
     Membre.all( function (membres ) {
@@ -77,10 +82,86 @@ app.post('/membre/add', (request, response) =>{
         response.redirect('/membre/add')
     } else {
         let Membre = require('./models/membre')
-        Membre.create(request.body.nom,request.body.prenom,request.body.email,request.body.dateFin,request.body.idType, function() {
+        Membre.create(request.body.nom,request.body.prenom,request.body.email,request.body.dateFin,request.body.type, function() {
             request.flash('success', "Membre envoyé :) Merci")
             response.redirect('/membre')
         })
     }
 })
+//supprimer le membre
+app.get('/membre/:id/delete',(request, response)=>{
+    connection.query('DELETE FROM membres WHERE id = ?',[request.params.id],(err, rows, fields)=>{
+        if(!err){
+            request.flash('success', "Le membre est bien supprimé :) Merci")
+            response.redirect('/membre')
+            }
+            else {
+                request.flash ('error', "Un problème en survenu membres non supprimé :(")
+                response.redirect('/membre')
+                console.log(err);
+            }
+    })
+})
 
+// modification membre
+
+app.get('/membre/:id/edit', (request, response) =>{
+    let Membre = require('./models/membre')
+    Membre.find(request.params.id, function(membre){
+        response.render('membres/edit.ejs', {membre: membre})
+    })
+} )
+/*
+app.post('/membre/:id/edit',(request, response)=>{
+    var param = [
+        request.body, //donnée de modification
+        request.query.id //condition de modification
+    ]
+    connection.query('UPDATE FROM membres WHERE id = ?', param, function(err, rows){
+        if(!err){
+            request.flash('success', "Le membre a été bien modifié :) Merci")
+            response.redirect('/membre')
+        }
+        else {
+            request.flash ('error', "Un problème en survenu membres non modifié :(")
+            response.redirect('/membre')
+            console.log(err);
+        }
+    })
+})
+
+app.post('/membre/:id/edit',(request, response)=>{
+    const mbrId = request.body.id;
+    let sql = "update membres set nom='"+request.body.nom+"', prenom='"+request.body.prenom+"', email='"+request.body.email+"', dateFin='"+request.body.dateFin+"', type='"+request.body.type+"' where id ="+mbrId;
+    
+
+   connection.query(sql,(err, results) =>{
+        if(!err){
+            request.flash('success', "Le membre est bien supprimé :) Merci")
+            response.redirect('/membre')
+            }
+            else {
+                request.flash ('error', "Un problème en survenu membres non supprimé :(")
+                response.redirect('/membre')
+                console.log(err);
+            }        
+    })
+})*/
+app.post('/membre/:id/edit',(request, response)=>{
+    const {id} = request.params;
+    const newMember = request.body;
+  
+    //request.connection((err, conn) =>{            
+        connection.query('UPDATE membres SET ? WHERE id = ?',[newMember,request.params.id],(err, rows)=>{
+            if(!err){
+                request.flash('success', "Le membre est bien modifié :) Merci")
+                response.redirect('/membre')
+                }
+                else {
+                    request.flash ('error', "Un problème en survenu membres non modifié :(")
+                    response.redirect('/membre')
+                    console.log(err);
+                }
+        })
+    //})
+})

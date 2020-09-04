@@ -2,30 +2,42 @@
 <div class="container mt-4">        
     <div class="card">
         <div class="card-header">
-                <h3 class="text-left">Liste de tous les membres  </h3> 
-                <h4 class="text-right"><a href="/membre/add"><i>Ajouter un membre</i></a></h4>
+                <h4><a class="btn btn-secondary" href="/membre/add"><i class="fa fa-plus"></i>Ajouter</a>Liste de tous les membres</h4>
         </div>
+        <% if (locals.flash && locals.flash.error) { %>
+            <div class="alert alert-danger" role="alert">
+                <%= flash.error %>
+            </div>
+            <% } %>
+            <% if (locals.flash && locals.flash.success) { %>
+            <div class="alert alert-success" role="alert">
+                <%= flash.success %>
+            </div>
+            <% } %>
         <div class="card-body table-responsive">
             <table class="table">
                 <thead>
                     <tr>
-                    <th scope="col">#</th>
                     <th scope="col">Nom</th>
                     <th scope="col">Prenom</th>
                     <th scope="col">Email</th>
                     <th scope="col">Fin abonnement</th>
                     <th scope="col">Type</th>
+                    <th scope="col">Action</th>
                     </tr>
                 </thead>
                 <tbody>
                     <% for (membre of membres) { %>
                     <tr>
-                    <th scope="row"><%= membre.id %> </th>
-                    <td><%= membre.nom %></td>
+                    <td scope="row"><%= membre.nom %></td>
                     <td><%= membre.prenom %></td>
                     <td><%= membre.email %></td>
                     <td><%= membre.dateFin.format('DD/MM/YYYY  ') %></td>
-                    <td><%= membre.idType %></td>
+                    <td><%= membre.type %></td>
+                    <td>                        
+                    <a class="btn btn-success fa fa-pencil"  href="/membre/<%= membre.id %>/edit"></a>
+                    <a class="btn btn-danger fa fa-trash " href="/membre/<%= membre.id %>/delete" onclick="return confirm('Voulez-vous vraiment faire cette suppression ?')"></a>
+                    </td>
                     </tr>
                     <% } %>
                 </tbody>
@@ -33,4 +45,5 @@
         </div>
     </div>
 </div>
+
 <%- include ('../footer') -%>
