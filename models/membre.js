@@ -54,8 +54,8 @@ class Membre {
         } )
     }
     //modifier membres
-    static edit (id, cb){
-        connection.query('SELECT * FROM membres WHERE id = ? LIMIT 1', [id], function(err, result){
+    static update (request, response){
+        connection.query('UPDATE membres SET ? WHERE id = ?', [request.params.id], function(err, result){
             if(err) throw err;
             
             console.log('Record Updated ' + result.changedRows + ' rows');

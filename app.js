@@ -111,57 +111,19 @@ app.get('/membre/:id/edit', (request, response) =>{
         response.render('membres/edit.ejs', {membre: membre})
     })
 } )
-/*
-app.post('/membre/:id/edit',(request, response)=>{
-    var param = [
-        request.body, //donnée de modification
-        request.query.id //condition de modification
-    ]
-    connection.query('UPDATE FROM membres WHERE id = ?', param, function(err, rows){
-        if(!err){
-            request.flash('success', "Le membre a été bien modifié :) Merci")
-            response.redirect('/membre')
-        }
-        else {
-            request.flash ('error', "Un problème en survenu membres non modifié :(")
-            response.redirect('/membre')
-            console.log(err);
-        }
-    })
-})
 
 app.post('/membre/:id/edit',(request, response)=>{
-    const mbrId = request.body.id;
-    let sql = "update membres set nom='"+request.body.nom+"', prenom='"+request.body.prenom+"', email='"+request.body.email+"', dateFin='"+request.body.dateFin+"', type='"+request.body.type+"' where id ="+mbrId;
-    
-
-   connection.query(sql,(err, results) =>{
+    let sql = "UPDATE membres SET nom='"+request.body.nom+"', prenom='"+request.body.prenom+"',\
+    email='"+request.body.email+"', dateFin='"+request.body.dateFin+"', type='"+request.body.type+"' where id ="+request.body.id
+      let query = connection.query(sql,(err, results) =>{
         if(!err){
-            request.flash('success', "Le membre est bien supprimé :) Merci")
+            request.flash('success', "Le membre est bien modifié :) Merci")
             response.redirect('/membre')
             }
             else {
-                request.flash ('error', "Un problème en survenu membres non supprimé :(")
+                request.flash ('error', "Un problème en survenu membres non modifié :(")
                 response.redirect('/membre')
                 console.log(err);
             }        
     })
-})*/
-app.post('/membre/:id/edit',(request, response)=>{
-    const {id} = request.params;
-    const newMember = request.body;
-  
-    //request.connection((err, conn) =>{            
-        connection.query('UPDATE membres SET ? WHERE id = ?',[newMember,request.params.id],(err, rows)=>{
-            if(!err){
-                request.flash('success', "Le membre est bien modifié :) Merci")
-                response.redirect('/membre')
-                }
-                else {
-                    request.flash ('error', "Un problème en survenu membres non modifié :(")
-                    response.redirect('/membre')
-                    console.log(err);
-                }
-        })
-    //})
 })

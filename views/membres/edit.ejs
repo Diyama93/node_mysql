@@ -12,9 +12,9 @@
                 <%= flash.success %>
             </div>
             <% } %>
-
         <div class="card-body">
-            <form action="/membre/:id/edit" method="POST">
+            <form action="/membre/:id/edit" method="post">
+                <input type="hidden" value="<%= membre.id %>" name="id">
                 <div class="form-group">
                     <label for="nom">Nom</label>
                     <input type="text" class="form-control" id="nom" name="nom" value="<%= membre.nom %>">
@@ -29,7 +29,9 @@
                 </div>
                 <div class="form-group">
                     <label for="date"> Date de fin d'abonnement</label>
-                    <input type="date" class="form-control" id="date" name="dateFin" value="<%= membre.dateFin %>">
+                    <input type="text" placeholder="<%= membre.dateFin.format('DD/MM/YYYY') %>"
+                        onfocus="(this.type='date')" onblur="(this.type='text')"
+                        class="form-control" id="date" name="dateFin" value="<%= membre.dateFin.format('DD/MM/YYYY') %>"> 
                 </div>
                 <div class="form-group">
                     <label for="exampleFormControlSelect1">Type du membre</label>
