@@ -1,0 +1,39 @@
+<%- include ('../header') -%>
+<div class="container mt-4  page-content col-md-6 ">    
+    <div class="card">
+        <div class="card-header">
+            <a  href="/etablissement"><i class="fa fa-reply" aria-hidden="true"></i>Retour</a>
+            <h4>Ajouter un centre de formation</h4>
+        </div>
+            <% if (locals.flash && locals.flash.error) { %>
+            <div class="alert alert-danger" role="alert">
+                <%= flash.error %>
+            </div>
+            <% } %>
+            <% if (locals.flash && locals.flash.success) { %>
+            <div class="alert alert-success" role="alert">
+                <%= flash.success %>
+            </div>
+            <% } %>
+
+        <div class="card-body">
+            <form action="/etablissement/add" method="POST" autocomplete="off">
+                <div class="form-group">
+                    <label for="nom">Nom du centre</label>
+                    <input type="text" class="form-control" id="nom" name="nom">
+                </div>
+                <div class="form-group">
+                    <label for="respo">Nom et prénom du reponsable</label>
+                    <input type="text" class="form-control" id="respo" name="respo">
+                </div>
+                <div class="form-group">
+                    <label for="dateFin"> Date de fin d'abonnement</label>
+                    <input type="date" class="form-control" id="dateFin" name="dateFin">
+                </div>
+                
+                <button type="submit" class="btn btn-primary">Enrégister</button>
+            </form>
+        </div>
+    </div>
+</div>
+<%- include ('../footer') -%>

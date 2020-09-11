@@ -15,19 +15,11 @@ dotenv.config({ path: './.env'});
 
 const app = express();
 
-/*
-const db = mysql.createConnection({
-    host: process.env.DATABASE_HOST,
-    user: process.env.DATABASE_USER,
-    password: process.env.DATABASE_PASSWORD,
-    database: process.env.DATABASE
-})*/
 
 const publicDirectory = path.join(__dirname, './public')
 app.use(express.static(publicDirectory));
 
-//app.use(express.urlencoded({ extended: false }));
-//app.use(express.json());
+
 app.use(cookieParser());
 
 app.use(bodyParser.urlencoded({ extended: false}))
@@ -42,88 +34,54 @@ app.use(require('./middlewares/flash'));
 
 app.set('view engine', 'ejs');
 app.set('view engine', 'hbs');
-/*
-db.connect( (error) =>{
-    if(error){
-        console.log(error);
-    }else {
-        console.log("MYSQL Connected");
+
+
+/* Vérification du token */
+const checkTokenMiddleware = (req, res, next) => {
+    // Récupération du token
+    const token = req.headers.authorization && extractBearerToken(req.headers.authorization)
+
+    // Présence d'un token
+    if (!token) {
+        //return res.render('login')
+        return res.status(401).json({ message: 'Error. Need a token' })
     }
-})*/
 
-
+    // Véracité du token
+    jwt.verify(token, SECRET, (err, decodedToken) => {
+        if (err) {
+           // return res.render('login')
+            res.status(401).json({ message: 'Error. Bad token' })
+        } else {
+            return next()
+            //response.redirect('/admin')
+        }
+    })
+}
 
 //definir les routes
+
+//pour la connexion
 app.use('/', require('./routes/pages'));
 app.use('/auth', require('./routes/auth'));
-//app.use('/membre', require('./routes/auth'));
 
+//pour la gestion des membres
+const route1 = require('./routes/membre')
+app.use(route1)
+
+//pour la gestion des centres de formations
+const route2 = require('./routes/etablissement')
+app.use(route2)
+
+//pour la gestion des centres de formations
+const route3 = require('./routes/espacevert')
+app.use(route3)
+
+//choix du port
 app.listen(5000, () =>{
     console.log("Server started on port 5000");
 })
-
-//afficher la pages des membres
-app.get('/membre', (request, response) =>{
-    let Membre = require('./models/membre');
-    Membre.all( function (membres ) {
-        response.render('membres/show.ejs', {membres: membres})
-    })  
+//,checkTokenMiddleware,
+app.get('/admin' ,(request, response) =>{
+    response.render('admin/index.ejs')
 } )
-//ajout membre
-app.get('/membre/add', (request, response) =>{
-    let Membre = require('./models/membre');
-    Membre.all( function (membres ) {
-        response.render('membres/add.ejs', {membres: membres})
-    })  
-} )
-app.post('/membre/add', (request, response) =>{
-    if(request.body.nom === undefined || request.body.nom === ''){
-        request.flash ('error', "Un problème en survenu membres non enrégitré :(")
-        response.redirect('/membre/add')
-    } else {
-        let Membre = require('./models/membre')
-        Membre.create(request.body.nom,request.body.prenom,request.body.email,request.body.dateFin,request.body.type, function() {
-            request.flash('success', "Membre envoyé :) Merci")
-            response.redirect('/membre')
-        })
-    }
-})
-//supprimer le membre
-app.get('/membre/:id/delete',(request, response)=>{
-    connection.query('DELETE FROM membres WHERE id = ?',[request.params.id],(err, rows, fields)=>{
-        if(!err){
-            request.flash('success', "Le membre est bien supprimé :) Merci")
-            response.redirect('/membre')
-            }
-            else {
-                request.flash ('error', "Un problème en survenu membres non supprimé :(")
-                response.redirect('/membre')
-                console.log(err);
-            }
-    })
-})
-
-// modification membre
-
-app.get('/membre/:id/edit', (request, response) =>{
-    let Membre = require('./models/membre')
-    Membre.find(request.params.id, function(membre){
-        response.render('membres/edit.ejs', {membre: membre})
-    })
-} )
-
-app.post('/membre/:id/edit',(request, response)=>{
-    let sql = "UPDATE membres SET nom='"+request.body.nom+"', prenom='"+request.body.prenom+"',\
-    email='"+request.body.email+"', dateFin='"+request.body.dateFin+"', type='"+request.body.type+"' where id ="+request.body.id
-      let query = connection.query(sql,(err, results) =>{
-        if(!err){
-            request.flash('success', "Le membre est bien modifié :) Merci")
-            response.redirect('/membre')
-            }
-            else {
-                request.flash ('error', "Un problème en survenu membres non modifié :(")
-                response.redirect('/membre')
-                console.log(err);
-            }        
-    })
-})

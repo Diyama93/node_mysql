@@ -1,13 +1,44 @@
-
-<%- include ('header') -%>
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-wirth, inital-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    
+    <!-- Core theme CSS (includes Bootstrap)-->
+    <link href="css/styles.css" rel="stylesheet" />
+    <link rel="stylesheet" href="/style.css">
+    <title>Forma-Green</title> 
+    <style>
+    /* Always set the map height explicitly to define the size of the div
+    * element that contains the map. */
+    #map {
+        height: 100%;
+    }
+    /* Optional: Makes the sample page fill the window. */
+    html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+    }
+    </style>
+     <!-- Font Awesome CSS -->
+     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+</head>
+  <body>
+              
+    <nav>
+        <a class="navbar-brand js-scroll-trigger text-white fixed-left" href="/"><h4> Forma-Green</h4></a>
+       
+    </nav>
     <div class="container mt-4 col-md-4">
         <div class="card">
             <div class="card-header">
                 Formulaire de connexion
             </div>
-            <!-- {{#if message}}
+            {{#if message}}
             <h4 class="alert alert-danger mt4">{{message}}</h4>
-            {{/if}}-->
+            {{/if}}
             <div class="card-body">
                 <form action="/auth/login" method="POST">
                     
@@ -22,7 +53,18 @@
 
                     <button type="submit" class="btn btn-primary">Connexion</button>
                 </form>
+                <a class="text-secondary" href="/register">Inscription</a>
             </div>
         </div>
     </div>
-    <%- include ('footer') -%>
+
+<script type="text/javascript" src="map/js/mapmarkers.js"></script>
+<script defer
+src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCITtqmgaygK8_qxBJFtS20VC6CduQAFME&callback=initMap">
+</script>
+<!-- -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="http://getbootstrap.com/2.3.2/assets/js/bootstrap.js"></script>
+
+</body>
+</html>

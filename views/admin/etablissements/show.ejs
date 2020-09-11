@@ -1,8 +1,8 @@
 <%- include ('../header') -%>
-<div class="container mt-4">        
+<div class="container mt-4  page-content  ">    
     <div class="card">
         <div class="card-header">
-                <h4><a class="btn btn-secondary" href="/membre/add"><i class="fa fa-plus"></i>Ajouter</a>Liste de tous les membres</h4>
+                <h4><a class="btn btn-secondary" href="/etablissement/add"><i class="fa fa-plus"></i>Ajouter</a>Liste de tous les etablissements</h4>
         </div>
         <% if (locals.flash && locals.flash.error) { %>
             <div class="alert alert-danger" role="alert">
@@ -18,25 +18,21 @@
             <table class="table">
                 <thead>
                     <tr>
-                    <th scope="col">Nom</th>
-                    <th scope="col">Prenom</th>
-                    <th scope="col">Email</th>
+                    <th scope="col">Centre de formation</th>
+                    <th scope="col">Responsable</th>
                     <th scope="col">Fin abonnement</th>
-                    <th scope="col">Type</th>
                     <th scope="col">Action</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <% for (membre of membres) { %>
+                    <% for (etablissement of etablissements) { %>
                     <tr>
-                    <td scope="row"><%= membre.nom %></td>
-                    <td><%= membre.prenom %></td>
-                    <td><%= membre.email %></td>
-                    <td><%= membre.dateFin.format('DD/MM/YYYY  ') %></td>
-                    <td><%= membre.type %></td>
+                    <td scope="row"><%= etablissement.nom %></td>
+                    <td><%= etablissement.respo %></td>
+                    <td><%= etablissement.dateFin.format('DD/MM/YYYY  ') %></td>
                     <td>                        
-                    <a class="btn btn-success fa fa-pencil"  href="/membre/<%= membre.id %>/edit"></a>
-                    <a class="btn btn-danger fa fa-trash " href="/membre/<%= membre.id %>/delete" onclick="return confirm('Voulez-vous vraiment faire cette suppression ?')"></a>
+                    <a class="btn btn-success fa fa-pencil"  href="/etablissement/<%= etablissement.id %>/edit"></a>
+                    <a class="btn btn-danger fa fa-trash " href="/etablissement/<%= etablissement.id %>/delete" onclick="return confirm('Voulez-vous vraiment faire cette suppression ?')"></a>
                     </td>
                     </tr>
                     <% } %>

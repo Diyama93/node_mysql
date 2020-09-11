@@ -1,0 +1,45 @@
+<%- include ('../header') -%>
+<div class="container mt-4  page-content  ">    
+    <div class="card">
+        <div class="card-header">
+                <h4><a class="btn btn-secondary" href="/espacevert/add"><i class="fa fa-plus"></i>Ajouter</a>Liste de tous les espaces verts</h4>
+        </div>
+        <% if (locals.flash && locals.flash.error) { %>
+            <div class="alert alert-danger" role="alert">
+                <%= flash.error %>
+            </div>
+            <% } %>
+            <% if (locals.flash && locals.flash.success) { %>
+            <div class="alert alert-success" role="alert">
+                <%= flash.success %>
+            </div>
+            <% } %>
+        <div class="card-body table-responsive">
+            <table class="table">
+                <thead>
+                    <tr>
+                    <th scope="col">centre de formation</th>
+                    <th scope="col">longitude</th>
+                    <th scope="col">latitude</th>
+                    <th scope="col">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% for (espacevert of espaceverts) { %>
+                    <tr>
+                    <td scope="row"><%= espacevert.etablissements %></td>
+                    <td><%= espacevert.longitude %></td>
+                    <td><%= espacevert.latitude %></td>
+                    <td>                        
+                    <a class="btn btn-success fa fa-pencil"  href="/espacevert/<%= espacevert.id %>/edit"></a>
+                    <a class="btn btn-danger fa fa-trash " href="/espacevert/<%= espacevert.id %>/delete" onclick="return confirm('Voulez-vous vraiment faire cette suppression ?')"></a>
+                    </td>
+                    </tr>
+                    <% } %>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<%- include ('../footer') -%>

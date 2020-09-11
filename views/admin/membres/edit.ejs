@@ -1,0 +1,58 @@
+<%- include ('../header') -%>
+<div class="container mt-4  page-content col-md-6 ">    
+    <div class="card">
+        <div class="card-header">             
+            <a  href="/espacevert"><i class="fa fa-reply" aria-hidden="true"></i>Retour</a>
+            <h4> Modification du membre <%= membre.nom %> <%= membre.prenom %></h4>
+        </div>
+        <% if (locals.flash && locals.flash.error) { %>
+        <div class="alert alert-danger" role="alert">
+            <%= flash.error %>
+        </div>
+        <% } %>
+        <% if (locals.flash && locals.flash.success) { %>
+        <div class="alert alert-success" role="alert">
+            <%= flash.success %>
+        </div>
+        <% } %>
+        <div class="card-body">
+            <form action="/membre/:id/edit" method="post">
+                <input type="hidden" value="<%= membre.id %>" name="id">
+                <div class="form-group">
+                    <label for="nom">Nom</label>
+                    <input type="text" class="form-control" id="nom" name="nom" value="<%= membre.nom %>">
+                </div>
+                <div class="form-group">
+                    <label for="prenom">Prénom(s)</label>
+                    <input type="text" class="form-control" id="prenom" name="prenom" value="<%= membre.prenom %>">
+                </div>
+                <div class="form-group">
+                    <label for="email">Adresse mail</label>
+                    <input type="email" class="form-control" id="email" name="email" value="<%= membre.email %>">
+                </div>
+                <div class="form-group">
+                    <label for="date"> Date de fin d'abonnement</label>
+                    <!--  placeholder="<%= membre.dateFin.format('DD/MM/YYYY') %>"-->
+                    <input type="text"
+                        onfocus="(this.type='date')" onblur="(this.type='text')" min="10/09/2020"
+                        class="form-control" id="date" name="dateFin" value="<%= membre.dateFin.format('DD/MM/YYYY') %>"> 
+                </div>
+                <div class="form-group">
+                    <!--<label for="exampleFormControlSelect1">Type du membre</label>
+                    <select class="form-control" id="exampleFormControlSelect1" name="type" value="<%= membre.type %>">                        
+                            <option value="Donateur"> Donateur</option>
+                            <option value="Bénévole"> Bénévole</option>                        
+                    </select>-->
+                    
+                    <select class="form-control" id="exampleFormControlSelect1" name="type" value="<%= membre.type %>">
+                        <option value="Bénévole" <%= membre.type == "Bénévole" ? "selected" : "" %>>Bénévole</option>
+                        <option value="Donateur" <%= membre.type == "Donateur" ? "selected" : "" %>>Donateur</option>
+                    </select>
+                </div>
+                <a class="btn btn-danger" href="/membre" role="button">Annuler</a>
+                <button type="submit" class="btn btn-primary" value="<%= membre.id %>">Modifier</button>
+            </form>
+        </div>
+    </div>
+</div>
+<%- include ('../footer') -%>

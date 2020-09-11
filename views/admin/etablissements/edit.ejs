@@ -1,0 +1,43 @@
+<%- include ('../header') -%>
+<div class="container mt-4  page-content  ">    
+    <div class="card">        
+        <div class="card-header">
+            <a  href="/etablissement"><i class="fa fa-reply" aria-hidden="true"></i>Retour</a>
+            <h4>Modification de  <%= etablissement.nom %></h4>
+        </div>
+        <% if (locals.flash && locals.flash.error) { %>
+        <div class="alert alert-danger" role="alert">
+            <%= flash.error %>
+        </div>
+        <% } %>
+        <% if (locals.flash && locals.flash.success) { %>
+        <div class="alert alert-success" role="alert">
+            <%= flash.success %>
+        </div>
+        <% } %>
+        <div class="card-body">
+            <form action="/etablissement/:id/edit" method="post">
+                <input type="hidden" value="<%= etablissement.id %>" name="id">
+                <div class="form-group">
+                    <label for="nom">Nom du centre</label>
+                    <input type="text" class="form-control" id="nom" name="nom" value="<%= etablissement.nom %>">
+                </div>
+                <div class="form-group">
+                    <label for="respo">Nom et prénom du reponsable</label>
+                    <input type="text" class="form-control" id="respo" name="respo" value="<%= etablissement.respo %>">
+                </div>
+                <div class="form-group">
+                    <label for="date"> Date de fin d'abonnement</label>
+                    <input type="text" placeholder="<%= etablissement.dateFin.format('DD/MM/YYYY') %>"
+                        onfocus="(this.type='date')" onblur="(this.type='text')"
+                        class="form-control" id="date" name="dateFin" value="<%= etablissement.dateFin.format('DD/MM/YYYY') %>"> 
+                </div>
+                
+                
+                <a class="btn btn-danger" href="/etablissement" role="button">Annuler</a>
+                <button class="btn btn-primary" type="submit" value="<%= etablissement.id %>">Modifier</button>
+            </form>
+        </div>
+    </div>
+</div>
+<%- include ('../footer') -%>

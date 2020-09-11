@@ -1,0 +1,44 @@
+<%- include ('../header') -%>
+<div class="container mt-4  page-content col-md-6 ">    
+    <div class="card">
+        <div class="card-header">
+            <a  href="/espacevert"><i class="fa fa-reply" aria-hidden="true"></i>Retour</a>
+            <h4>Ajouter d'un espace vert</h4>
+        </div>
+            <% if (locals.flash && locals.flash.error) { %>
+            <div class="alert alert-danger" role="alert">
+                <%= flash.error %>
+            </div>
+            <% } %>
+            <% if (locals.flash && locals.flash.success) { %>
+            <div class="alert alert-success" role="alert">
+                <%= flash.success %>
+            </div>
+            <% } %>
+
+        <div class="card-body">
+            <form action="/espacevert/add" method="POST">
+                <div class="form-group">
+                    <label for="exampleFormControlSelect1">Etablissement d'accueil</label>
+                    <select class="form-control" id="exampleFormControlSelect1" name="idEts">                        
+                            <option selected="true" disabled="disabled"> Selectionner l'établissement</option> 
+                            <% for (etablissement of etablissements) { %>
+                            <option> <%= etablissement.nom %></option>  
+                            <% } %>                    
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="longitude">Longitude</label>
+                    <input type="text" class="form-control" id="longitude" name="longitude" placeholder=" 41.40338">
+                </div>
+                <div class="form-group">
+                    <label for="latitude">Latitude</label>
+                    <input type="text" class="form-control" id="latitude" name="latitude" placeholder=" 41.40338">
+                </div>
+                
+                <button type="submit" class="btn btn-primary">Enrégister</button>
+            </form>
+        </div>
+    </div>
+</div>
+<%- include ('../footer') -%>

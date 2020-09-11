@@ -1,8 +1,9 @@
 <%- include ('../header') -%>
-<div class="container mt-4">
+<div class="container mt-4  page-content col-md-6 ">    
     <div class="card">
         <div class="card-header">
-            Ajouter un membre
+            <a  href="/membre"><i class="fa fa-reply" aria-hidden="true"></i>Retour</a>
+            <h4>Ajouter un membre</h4>
         </div>
             <% if (locals.flash && locals.flash.error) { %>
             <div class="alert alert-danger" role="alert">
@@ -36,6 +37,7 @@
                 <div class="form-group">
                     <label for="exampleFormControlSelect1">Type du membre</label>
                     <select class="form-control" id="exampleFormControlSelect1" name="type">                        
+                            <option selected="true" disabled="disabled"> Selectionner le type du membre</option> 
                             <option> Donateur</option>
                             <option> Bénévole</option>                        
                     </select>
